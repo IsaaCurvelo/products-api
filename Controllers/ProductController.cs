@@ -16,7 +16,10 @@ namespace exemplo.Controllers
         [Route("")]
         public async Task<ActionResult<List<Product>>> Get([FromServices] DataContext context)
         {
-            var products = await context.Products.ToListAsync();
+            var products = await context.Products
+                .Include(x => x.Category)
+                .AsNoTracking()
+                .ToListAsync();
             return products;
         }
 
